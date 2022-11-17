@@ -16,7 +16,7 @@ gcc_version=10.1.0
 # Additional makefile options.  E.g., "-j 4" for parallel builds.  Parallel
 # builds are faster, however it can cause a build to fail if the project
 # makefile does not support parallel build.
-#make_flags="-j 2"
+make_flags="-j 16"
 
 # Architecture we are building for.
 arch_flags="-march=x86-64"
@@ -119,7 +119,7 @@ __wget()
     tarfile=$1; shift
 
     if [ ! -e "$tarfile_dir/$tarfile" ]; then
-        wget --verbose ${urlroot}/$tarfile --directory-prefix="$tarfile_dir"
+        wget --no-check-certificate --verbose ${urlroot}/$tarfile --directory-prefix="$tarfile_dir"
     else
         echo "already downloaded: $tarfile  '$tarfile_dir/$tarfile'"
     fi
@@ -285,7 +285,7 @@ CC="$CC" CXX="$CXX" CFLAGS="$OPT_FLAGS" \
 
 cd "$build_dir"
 
-make BOOT_CFLAGS="$OPT_FLAGS" $make_flags bootstrap
+make BOOT_CFLAGS="$OPT_FLAGS" $make_flags bootstrap 1>/dev/null
 
 # If desired, run the gcc test phase by uncommenting following line
 
